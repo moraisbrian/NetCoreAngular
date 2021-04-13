@@ -1,0 +1,129 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ mensagemAcao }}
+            </div>
+            <div class="modal-footer">
+                <div *ngIf="acaoBotaoMensagem === 'salvar'; else encerramento">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+                </div>
+                <ng-template #encerramento>
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Não</button>
+                    <button (click)="encerrarCancelarChamado($event)" [value]="acaoBotaoMensagem" type="button"
+                        class="btn btn-primary" data-bs-dismiss="modal">Sim</button>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md d-flex justify-content-md-start">
+        <h3>Chamado</h3>
+    </div>
+    <div class="col-md d-flex justify-content-md-end">
+        <button class="btn btn-primary" [disabled]="avaliado && finalizado || cancelado" data-bs-target="#exampleModal" data-bs-toggle="modal" value="salvar"
+            (click)="trocarMensagem($event)">Salvar</button>
+        <div style="display: inline;" *ngIf="usuarioCliente && !encerrado">
+            <button *ngIf="atendenteId" style="margin-left: 5px;" (click)="trocarMensagem($event)" value="finalizar" type="button"
+                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Encerrar</button>
+            <button style="margin-left: 5px;" (click)="trocarMensagem($event)" value="cancelar" type="button"
+                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancelar</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md">
+        <div
+            [ngClass]="{ 'normal': statusChamado === 0 || statusChamado === 3, 'atencao': statusChamado === 1, 'atrasado': statusChamado === 2 }">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="assunto" class="form-label">Assunto</label>
+                    <input type="text" class="form-control" readonly [ngModel]="assunto?.identificacao">
+                </div>
+                <div class="col-md-4">
+                    <label for="situacao" class="form-label">Situação</label>
+                    <input type="text" class="form-control" [ngModel]="situacao | situacaoStringify"
+                        (ngModelChange)="situacao = $event" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="prioridade" class="form-label">Prioridade</label>
+                    <select class="form-select" [(ngModel)]="prioridadeId" [disabled]="encerrado">
+                        <option *ngFor="let prioridade of prioridades$ | async" value="{{ prioridade.id }}">
+                            {{ prioridade.identificacao }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="cliente" class="form-label">Solicitante</label>
+                    <input type="text" class="form-control" [ngModel]="cliente?.nome" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="atendente" class="form-label">Atendente</label>
+                    <select class="form-select" [(ngModel)]="atendenteId" [disabled]="encerrado || usuarioCliente">
+                        <option class="option" *ngFor="let atendente of atendentes" value="{{ atendente?.id }}">
+                            {{ atendente?.nome }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <input type="text" class="form-control" readonly [ngModel]="departamento?.identificacao">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="dataAbertura" class="form-label">Data de Abertura</label>
+                    <input type="text" class="form-control" [ngModel]="dataAbertura | date:'dd/MM/yyyy HH:mm'"
+                        (ngModelChange)="dataAbertura = $event" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="dataUltimaInteracao" class="form-label">Data Ultima Interação</label>
+                    <input type="text" class="form-control" [ngModel]="dataUltimaInteracao | date:'dd/MM/yyyy HH:mm'"
+                        (ngModelChange)="dataUltimaInteracao = $event" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="protocolo" class="form-label">Protocolo</label>
+                    <input type="text" class="form-control" [(ngModel)]="protocolo" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="franquiaNome" class="form-label">Franquia</label>
+                    <input type="text" class="form-control" [(ngModel)]="franquiaNome" readonly>
+                </div>
+            </div>
+            <div *ngIf="finalizado">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="avaliacao" class="form-label">Avaliação</label>
+                        <select [disabled]="avaliado" class="form-select" [(ngModel)]="avaliacaoId">
+                            <option *ngFor="let nota of notas$ | async" value="{{ nota.id }}">{{ nota.identificacao }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <label for="observacoes" class="form-label">Observações de
+                            encerramento</label>
+                        <textarea [disabled]="avaliado" class="form-control" rows="3" [(ngModel)]="observacoes"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md">
+                    <app-mensagem-lista [chamadoEncerrado]="encerrado" [chamadoId]="chamadoId"
+                        (mensagemAdicionada)="mensagemAdicionada($event)">
+                    </app-mensagem-lista>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

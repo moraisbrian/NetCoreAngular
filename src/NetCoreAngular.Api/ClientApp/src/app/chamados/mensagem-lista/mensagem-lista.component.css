@@ -1,0 +1,9 @@
+.list-group {
+    overflow: auto;
+    min-height: 50px;
+    max-height: 100px;
+}
+
+.list-group-item {
+    cursor: pointer;
+}

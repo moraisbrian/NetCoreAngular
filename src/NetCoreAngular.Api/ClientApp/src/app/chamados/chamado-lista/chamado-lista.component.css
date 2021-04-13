@@ -1,0 +1,15 @@
+.table {
+    margin-top: 20px;
+}
+
+.atrasado td {
+    color: var(--chamado-atrasado-color);
+}
+
+.atencao td {
+    color: var(--chamado-atencao-color);
+}
+
+.normal td {
+    color: var(--primary-color);
+}

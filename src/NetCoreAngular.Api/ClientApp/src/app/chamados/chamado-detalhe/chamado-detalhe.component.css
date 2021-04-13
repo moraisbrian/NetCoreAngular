@@ -1,0 +1,15 @@
+.row {
+    margin-bottom: 5px;
+}
+
+.atrasado * {
+    color: var(--chamado-atrasado-color);
+}
+
+.atencao * {
+    color: var(--chamado-atencao-color);
+}
+
+.normal * {
+    color: var(--primary-color);
+}

@@ -1,0 +1,102 @@
+<div class="modal fade" id="novoChamadoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="novoChamadoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="novoChamadoLabel">Novo Chamado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form novalidate [formGroup]="chamadoForm" (ngSubmit)="adicionarChamado()">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="col-form-label">Assunto</label>
+                        <select formControlName="assunto" class="form-select">
+                            <option *ngFor="let assunto of assuntos$ | async" value="{{ assunto.id }}">
+                                {{ assunto.identificacao }} | {{ assunto.departamento?.identificacao }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Prioridade</label>
+                        <select formControlName="prioridade" class="form-select">
+                            <option *ngFor="let prioridade of prioridades$ | async" value="{{ prioridade.id }}">
+                                {{ prioridade.identificacao }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Mensagem Inicial</label>
+                        <textarea class="form-control" formControlName="mensagem"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Anexos:</label>
+                        <input #inputArquivos (change)="adicionarAnexo($event?.target?.files)" class="form-control form-control-sm"
+                            type="file" multiple>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="limparCampos()" #fecharModalNovoChamado type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" [disabled]="!chamadoForm.valid || adicionarChamadoClick" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h3>Chamados</h3>
+</div>
+<div class="d-flex flex-row" style="margin-top: 20px;">
+    <div class="col-md" style="margin-top: 5px; margin-right: 5px;">
+        <button style="white-space: nowrap;" (click)="exibirNovoChamado()" type="button" class="btn btn-primary"
+            data-bs-toggle="modal" data-bs-target="#novoChamadoModal">
+            Novo Chamado
+        </button>
+    </div>
+    <div class="col-md" style="margin-top: 5px;">
+        <form novalidate [formGroup]="pesquisaForm" (ngSubmit)="pesquisar()">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" formControlName="pesquisa" style="height: 35px;">
+                <button class="btn btn-primary" type="submit" id="btnPesquisarChamados">Pesquisar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div *ngIf="!carregandoChamados; else carregando">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Protocolo</th>
+                        <th scope="col">Situação</th>
+                        <th scope="col">Assunto</th>
+                        <th scope="col">Prioridade</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Atendente</th>
+                        <th scope="col">Departamento</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr (dblclick)="abrirChamado(chamado.id)" [ngClass]="{ 'normal': chamado.status === 0 || chamado.status === 3, 'atencao': chamado.status === 1, 'atrasado': chamado.status === 2 }"
+                        *ngFor="let chamado of chamados">
+                        <td>{{ chamado.protocolo }}</td>
+                        <td>{{ chamado.situacao | situacaoStringify }}</td>
+                        <td>{{ chamado.assunto?.identificacao }}</td>
+                        <td>{{ chamado.prioridade?.identificacao }}</td>
+                        <td>{{ chamado.cliente?.nome }}</td>
+                        <td>{{ chamado.atendente?.nome }}</td>
+                        <td>{{ chamado.departamento?.identificacao }}</td>
+                        <td><button class="btn btn-primary"
+                                [routerLink]="['/chamado-detalhe', chamado.id]">Editar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ng-template #carregando>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
+        </div>
+    </ng-template>
+</div>

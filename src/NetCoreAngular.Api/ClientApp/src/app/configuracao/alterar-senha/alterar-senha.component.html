@@ -1,0 +1,39 @@
+<form novalidate [formGroup]="novaSenhaForm" (ngSubmit)="alterarSenha()">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <label class="form-label" for="usuario">Senha Atual</label>
+            <input type="password" class="form-control" formControlName="senhaAtual">
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <label class="form-label" for="senha">Nova Senha</label>
+            <input type="password" class="form-control" formControlName="novaSenha">
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <label class="form-label" for="senha">Confirmação de Senha</label>
+            <input type="password" class="form-control" formControlName="confirmacao">
+        </div>
+    </div>
+    <div class="row justify-content-center" style="margin-top: 10px;">
+        <div class="col-md-5 text-center">
+            <button [disabled]="!novaSenhaForm.valid" type="submit" class="btn btn-primary">Alterar</button>
+        </div>
+    </div>
+</form>
+<div style="margin-top: 20px;">
+    <div *ngIf="carregando">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-dark" role="status"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-flex justify-content-center" *ngIf="informacao">
+            <div class="alert" [ngClass]="{ 'alert-primary': dangerInfo === 'info' , 'alert-danger': dangerInfo === 'danger' }" role="alert">
+                {{ mensagem }}
+            </div>
+        </div>
+    </div>
+</div>

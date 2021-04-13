@@ -1,0 +1,28 @@
+.carousel-control-prev, .carousel-control-next {
+    border: 0;
+    background-color: transparent;
+}
+
+#carouselInterval {
+   max-height: 400px; 
+   max-width: 600px;
+}
+
+#interna {
+    display: inline-block;
+}
+
+#externa {
+    width: 100%;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+#whatsappIcon {
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+}

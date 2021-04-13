@@ -1,0 +1,60 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --primary-color: #0C375D;
+    --secondary-color: #2D5C85;
+    --chamado-atrasado-color: #E62727;
+    --chamado-atencao-color: #ADD444;
+}
+
+* {
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    height: 35px;
+    padding: 0 8px;
+    font-size: 10pt;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    height: 35px;
+    padding: 0 5px;
+    font-size: 10pt;
+}
+
+.btn-secondary:hover {
+    background-color: #326796;
+}
+
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-primary:disabled {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.form-control:read-only, 
+.form-select:read-only {
+    background-color: #FFF; 
+}
+
+.form-select,
+.form-control,
+.spinner-border {
+    color: var(--primary-color);
+}
+
+.form-control:focus,
+.form-select:focus,
+.btn-primary:focus {
+    box-shadow: 0 0 #FFF;
+}
+
+.form-control:disabled {
+    background-color: #FFF;
+}

@@ -1,0 +1,34 @@
+<form novalidate [formGroup]="loginForm" (ngSubmit)="autenticar()">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <label class="form-label" for="usuario">Usuário</label>
+            <input type="text" class="form-control" formControlName="usuario">
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <label class="form-label" for="senha">Senha</label>
+            <input type="password" class="form-control" formControlName="senha">
+        </div>
+    </div>
+    <div class="row entrar justify-content-center">
+        <div class="col-md-5 text-center">
+            <button [disabled]="!loginForm.valid" type="submit" class="btn btn-primary">Entrar</button>
+        </div>
+    </div>    
+</form>
+<div style="margin-top: 20px;">
+    <div *ngIf="carregando">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-dark" role="status"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-flex justify-content-center" *ngIf="erro">
+            <div class="alert alert-danger" role="alert">
+                <span class="text-danger">Usuário ou senha inválidos</span>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,119 @@
+<div class="modal fade" id="mensagemDetalheModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="mensagemDetalheModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mensagemDetalheModalLabel">Detalhe da Mensagem</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="col-form-label">Usuário</label>
+                    <input type="text" class="form-control" [value]="usuarioDetalhe" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label">Data de Criação</label>
+                    <input type="text" class="form-control" [ngModel]="dataDetalhe | date:'dd/MM/yyyy hh:mm'" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label">Conteúdo</label>
+                    <textarea class="form-control" [value]="conteudoDetalhe" readonly></textarea>
+                </div>
+                <div *ngIf="carregandoAnexos; else anexosCarregados">
+                    <div class="d-flex align-items-center">
+                        <strong>Carregando Anexos...</strong>
+                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                      </div>
+                </div>
+                <ng-template #anexosCarregados>
+                    <div *ngIf="anexosDetalhe.length > 0; else semAnexos" class="mb-3">
+                        <label class="col-form-label">Anexos</label>
+                        <ul class="list-group">
+                            <li class="list-group-item" (click)="downloadFile(arquivo)" *ngFor="let arquivo of anexosDetalhe">{{ arquivo.nome }}</li>
+                        </ul>
+                    </div>
+                    <ng-template #semAnexos>
+                        <span>A mensagem não possuí anexos</span>
+                    </ng-template>
+                </ng-template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mensagemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="mensagemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mensagemModalLabel">Nova Mensagem</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="col-form-label">Conteúdo</label>
+                    <textarea class="form-control" [(ngModel)]="mensagemConteudo"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Anexos</label>
+                    <input #inputArquivos class="form-control form-control-sm" (change)="adicionarAnexos($event?.target?.files)" type="file" multiple>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button (click)="limparMensagem()" type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Cancelar</button>
+                <button data-bs-dismiss="modal" [disabled]="mensagemConteudo?.length < 6" (click)="adicionarMensagem()" type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md d-flex justify-content-md-start">
+        <h5>Mensagens</h5>
+    </div>
+    <div class="col-md d-flex justify-content-md-end">
+        <button [disabled]="chamadoEncerrado" type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#mensagemModal">
+            Nova Mensagem
+        </button>
+    </div>
+</div>
+<div *ngIf="mensagens; else carregando">
+    <div class="row">
+        <div class="col-md">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Conteúdo</th>
+                            <th scope="col">Usuário</th>
+                            <th scope="col">Data</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let mensagem of mensagens">
+                            <td>{{ mensagem.conteudo | textSubstring:40 }}</td>
+                            <td>{{ mensagem.usuario?.nome }}</td>
+                            <td>{{ mensagem.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</td>
+                            <td>
+                                <button data-bs-toggle="modal" (click)="exibirDetalheMensagem($event)"
+                                    data-bs-target="#mensagemDetalheModal" class="btn btn-primary"
+                                    value="{{ mensagem.id }}">
+                                    Detalhe
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #carregando>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-dark" role="status"></div>
+    </div>
+</ng-template>

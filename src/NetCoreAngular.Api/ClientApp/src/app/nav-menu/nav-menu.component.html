@@ -1,0 +1,65 @@
+<div class="modal fade" id="alterarFranquiaModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="novoChamadoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="novoChamadoLabel">Franquia Atual</h5>
+        <button [hidden]="esconderBotaoCancelar" id="btnCloseModal" type="button" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="franquiaForm" novalidate (ngSubmit)="escolherFranquia()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="col-form-label">Franquias</label>
+            <select formControlName="franquia" class="form-select">
+              <option *ngFor="let franquia of franquias" value="{{ franquia.id }}">
+                {{ franquia.nome }}</option>
+            </select>
+          </div>
+          <span *ngIf="exibirMensagemErro" class="text-danger">Favor selecione uma franquia para continuar...</span>
+        </div>
+        <div class="modal-footer">
+          <button [hidden]="esconderBotaoCancelar" type="button" class="btn btn-secondary"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" [disabled]="franquiaForm.pristine" class="btn btn-primary">Ok</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<button hidden id="btnAtualizarNomeFranquia" (click)="atualizarNomeFranquia()"></button>
+<nav (click)="fecharMenu()" class="navbar fixed-top navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">NetCoreAngular</a>
+    <button #collapse class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".dual-collapse"
+      aria-controls="dual-collapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse dual-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="chamado-lista">Chamados</a>
+        </li>
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse justify-content-end dual-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="configDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            {{ nomeUsuario | textSubstring:50 }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="configDropdown">
+            <li><a class="dropdown-item" routerLink="alterar-senha">Alterar Senha</a></li>
+            <li><a (click)="verificarFranquia()" id="escolherFranquia" class="dropdown-item" href="#"
+                data-bs-toggle="modal" data-bs-target="#alterarFranquiaModal">Alterar franquia atual</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a (click)="sair()" class="dropdown-item sair">Sair</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
