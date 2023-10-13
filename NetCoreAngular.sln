@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreAngular.Domain", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreAngular.Ioc", "src\NetCoreAngular.Ioc\NetCoreAngular.Ioc.csproj", "{EDE3D9B0-AA3B-4AF5-8B80-2C370E9ACF44}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{74218035-7FA1-46C3-A244-59B9C5A3767B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreAngular.Utils", "src\NetCoreAngular.Utils\NetCoreAngular.Utils.csproj", "{2573C5F8-D742-45F6-9CD8-B468BED3CC9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreAngular.Application", "src\NetCoreAngular.Application\NetCoreAngular.Application.csproj", "{C0815B32-09BD-4776-8231-55B2FA89E5D2}"
@@ -102,9 +100,5 @@ Global
 		{C0815B32-09BD-4776-8231-55B2FA89E5D2}.Release|x64.Build.0 = Release|Any CPU
 		{C0815B32-09BD-4776-8231-55B2FA89E5D2}.Release|x86.ActiveCfg = Release|Any CPU
 		{C0815B32-09BD-4776-8231-55B2FA89E5D2}.Release|x86.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{2573C5F8-D742-45F6-9CD8-B468BED3CC9A} = {74218035-7FA1-46C3-A244-59B9C5A3767B}
-		{C0815B32-09BD-4776-8231-55B2FA89E5D2} = {74218035-7FA1-46C3-A244-59B9C5A3767B}
 	EndGlobalSection
 EndGlobal
